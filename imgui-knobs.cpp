@@ -162,7 +162,12 @@ namespace ImGuiKnobs {
 
             auto speed = _speed == 0 ? (v_max - v_min) / 250.f : _speed;
             ImGui::PushID(label);
-            auto width = size == 0 ? ImGui::GetTextLineHeight() * 4.0f : size * ImGui::GetIO().FontGlobalScale;
+            auto width = size == 0 ? ImGui::GetTextLineHeight() * 4.0f : size *
+#if IMGUI_VERSION_NUM < 19197
+                ImGui::GetIO().FontGlobalScale;
+#else
+                ImGui::GetStyle().FontScaleMain;
+#endif
             ImGui::PushItemWidth(width);
 
             ImGui::BeginGroup();
